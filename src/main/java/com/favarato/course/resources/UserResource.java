@@ -12,7 +12,7 @@ import com.favarato.course.entities.User;
 public class UserResource {
 	@GetMapping
 	public ResponseEntity<User> findAll() {
-		User u = new User(1L, "Maria", "maria@gmail.com", "9999", "ddd");
+		User u = new User(1L, "João", "maria@gmail.com", "9999", "ddd");
 		return ResponseEntity.ok().body(u);
 	}
 }
