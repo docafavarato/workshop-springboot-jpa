@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +23,9 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private Instant instant;
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
+	private Instant moment;
 	
 	@ManyToOne
 	@JoinColumn(name="client_id")
@@ -29,9 +34,10 @@ public class Order implements Serializable {
 	public Order() {
 	}
 
-	public Order(Long id, Instant instant, User client) {
+	public Order(Long id, Instant moment, User client) {
+		super();
 		this.id = id;
-		this.instant = instant;
+		this.moment = moment;
 		this.client = client;
 	}
 
@@ -43,12 +49,12 @@ public class Order implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getInstant() {
-		return instant;
+	public Instant getMoment() {
+		return moment;
 	}
 
-	public void setInstant(Instant instant) {
-		this.instant = instant;
+	public void setMoment(Instant moment) {
+		this.moment = moment;
 	}
 
 	public User getClient() {
@@ -61,9 +67,12 @@ public class Order implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -78,6 +87,6 @@ public class Order implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", instant=" + instant + ", client=" + client + "]";
+		return "Order [id=" + id + ", moment=" + moment + ", client=" + client + "]";
 	}
 }
