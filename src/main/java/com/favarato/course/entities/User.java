@@ -3,9 +3,9 @@ package com.favarato.course.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.favarato.course.entities.enums.UserType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +26,7 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+	private Integer userType;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "client")
@@ -34,13 +35,14 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	public User(Long id, String name, String email, String phone, String password) {
+	public User(Long id, String name, String email, String phone, String password, UserType userType) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
 		this.password = password;
+		setUserType(userType);
 	}
 
 	public Long getId() {
@@ -83,9 +85,18 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-
 	public List<Order> getOrders() {
 		return orders;
+	}
+	
+	public UserType getUserType() {
+		return UserType.valueOf(userType);
+	}
+	
+	public void setUserType(UserType orderStatus) {
+		if (orderStatus != null) {
+			this.userType = orderStatus.getCode();
+		}
 	}
 	
 	@Override
