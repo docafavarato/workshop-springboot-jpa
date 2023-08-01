@@ -23,4 +23,12 @@ public class UserService {
 		Optional<User> obj = repository.findById(id);
 		return obj.get();
 	}
+	
+	public List<User> findByNameIgnoreCaseContains(String name) {
+		return repository.findByNameIgnoreCaseContains(name);
+	}
+	
+	public User insert(User obj) {
+		return repository.save(obj);
+	}
 }

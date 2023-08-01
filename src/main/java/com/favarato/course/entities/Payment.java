@@ -5,13 +5,13 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.favarato.course.entities.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -28,6 +28,8 @@ public class Payment implements Serializable {
 	private Instant moment;
 	
 	@OneToOne
+	@MapsId
+	@JsonIgnore
 	private Order order;
 	
 	public Payment() {
@@ -37,7 +39,6 @@ public class Payment implements Serializable {
 		this.id = id;
 		this.moment = moment;
 		this.order = order;
-		order.setOrderStatus(OrderStatus.PAID);
 	}
 	
 	public Long getId() {
