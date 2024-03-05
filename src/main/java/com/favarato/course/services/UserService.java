@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.favarato.course.entities.User;
 import com.favarato.course.repositories.UserRepository;
+import com.favarato.course.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
 	
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public List<User> findByNameIgnoreCaseContains(String name) {
